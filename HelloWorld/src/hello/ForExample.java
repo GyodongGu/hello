@@ -3,7 +3,7 @@ package hello;
 public class ForExample {
 
 	public static void main(String[] args) {
-		int x = 5;
+		int x = 6;
 		for(int i = 0; i<=5; i++) {
 			int res = x * 2*i; 
 			if(i==0)
