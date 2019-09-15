@@ -10,6 +10,7 @@ public class ForExample {
 				System.out.println(x + " * " + 1 + " = " +x);
 			else
 				System.out.println(x + " * " + (2*i) + " = " +res);		
+			
 		}		
 	}
 
