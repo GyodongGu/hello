@@ -10,7 +10,6 @@ public class Exercise0306 {
 		double area = (double)(x+y)/2*h;
 		
 		System.out.println(area);
-
 	}
 
 }
