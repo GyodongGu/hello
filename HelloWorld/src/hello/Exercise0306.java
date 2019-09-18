@@ -11,7 +11,7 @@ public class Exercise0306 {
 			i +=3;
 		}
 		System.out.println(i);
-:::
+
 		int x = 5;
 		int y = 10;
 		int h = 7;

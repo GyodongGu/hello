@@ -40,6 +40,7 @@ public class Exercise0609 {
 			}else if(selectNo == 4) {
 				int maxValue = 0;
 				int sum =0;
+				
 				for(int i=0; i<scores.length; i++) {
 					maxValue = (maxValue > scores[i] ? maxValue : scores[i]);
 				}
@@ -48,6 +49,7 @@ public class Exercise0609 {
 				}
 				System.out.println("최고 점수 : " + maxValue);
 				System.out.println("평균점수 : " + (double)(sum/scores.length));
+				
 			}else if(selectNo == 5) {
 				run = false;
 			}
