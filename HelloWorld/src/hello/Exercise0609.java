@@ -11,7 +11,7 @@ public class Exercise0609 {
 		int studentNum = 0;
 		int[] scores = null;
 		Scanner scanner = new Scanner(System.in);
-		
+		 
 		
 		while(run) {
 			System.out.println("--------------------------------");
