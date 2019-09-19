@@ -9,6 +9,7 @@ public class Calculator {
 		int result = x+y;
 		return result;
 	}
+	
 	double avg(int a, int b) {
 		int sum = plus(a,b);
 		double res = (double)sum/2;
