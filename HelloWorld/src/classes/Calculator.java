@@ -3,6 +3,11 @@ package classes;
 import java.util.Scanner;
 
 public class Calculator {
+	
+	
+	static double plus(double x, double y) {
+		return x+y;
+	}
 
 	
 	int plus(int x, int y) {
