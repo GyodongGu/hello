@@ -10,8 +10,20 @@ public class baseball {
 		Scanner sc = new Scanner(System.in);
 		int ary[] = new int[3];
 		
-		for(int i =0; i<ary.length; i++) {
-			ary[i] = (int)(Math.random()*10) +1;	
+//		for(int i =0; i<ary.length; i++) {
+//			ary[i] = (int)(Math.random()*10) +1;	
+//		}
+		boolean k = true;
+		while(k) {
+			
+			for(int i =0; i<ary.length; i++) {
+				ary[i] = ((int)(Math.random()*10)+1)%10;
+			}
+			if(ary[0] == ary[1] || ary[0] == ary[2] || ary[1] == ary[2]) {
+				k = true;
+			}else if(ary[0] != ary[1] && ary[0] != ary[2] && ary[1] != ary[2]){
+				k = false;
+			}
 		}
 		
 		int ans[] = new int[3];

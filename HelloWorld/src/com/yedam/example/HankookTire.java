@@ -2,12 +2,12 @@ package com.yedam.example;
 
 public class HankookTire extends Tire{
 	
-	HankookTire(String location, int maxRotation){
+	public HankookTire(String location, int maxRotation){
 		super(location, maxRotation);
 	}
 	
 	@Override
-	boolean roll() {
+	public boolean roll() {
 		this.accumulatedRotation++;
 		if(maxRotation > accumulatedRotation) {
 			System.out.println(location + "Hankook타이어 수명 : " + (maxRotation - accumulatedRotation)+"회");
