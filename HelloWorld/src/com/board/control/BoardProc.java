@@ -51,10 +51,11 @@ public class BoardProc {
 		String contents = sc.nextLine();
 		System.out.println("작성자 입력하세요.");
 		String writer = sc.nextLine();
-		
+		//board class의 필드를 사용해서 인스턴스를 만들고
+		//boardServiceImpl에서 method를 사용하기위해 인스턴스를 만들엇다.
 		Board board = new Board(boardNo, title, contents, writer);
-		
 		BoardService service = new BoardServiceImpl();	//interface service = new implement
+		
 		service.writeBoard(board, boardAry);
 		
 //		for(int i =0; i<boardAry.length; i++) {
@@ -105,6 +106,8 @@ public class BoardProc {
 		
 		service.deleteBoard(de, boardAry);
 	}
+	
+	
 	public void updateBoard() {
 		System.out.println("변경할 번호");
 		int boardNo = sc.nextInt();sc.nextLine();
