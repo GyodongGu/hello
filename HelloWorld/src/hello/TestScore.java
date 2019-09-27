@@ -45,7 +45,7 @@ public class TestScore {
 						System.out.println("학생번호 : "+score[i].getStudentId()+" 학생이름 : "+score[i].getName() + " 국어성적 : " + score[i].getKoreanScore()+" 영어성적 : "+ score[i].getEnglishScore() + " 수학성적 : " + score[i].getMathScore());
 					}
 				}
-				
+				//선택조회
 			}else if(menu == 3) {
 				System.out.println("학생 번호 조회");
 				int idNo = sc.nextInt();sc.nextLine();
@@ -56,6 +56,7 @@ public class TestScore {
 					}
 				}
 				
+				//전체점수, 평균
 			}else if(menu == 4) {
 				System.out.println("반 전체 점수");
 				int allScore = 0;
@@ -72,11 +73,11 @@ public class TestScore {
 				avg = savgScore/cnt;
 				System.out.println("반 전체 총점 : " + allScore + "평균 점수 : "+ avg);
 				
-				
+				//선택정렬(오름차순)
 			}else if(menu == 5) {
 				System.out.println("오름차순으로 정렬하시오(총점기준)");
-				for(int i =0; i<score.length; i++) {
-					for(int j = i; j<score.length; j++) {
+				for(int i =0; i<score.length-1; i++) {
+					for(int j = i+1; j<score.length; j++) {
 						if(score[i] != null && score[j] != null) {
 							if(score[i].getSumScore() > score[j].getSumScore()) {
 								int tmp = score[j].getSumScore();
@@ -91,7 +92,7 @@ public class TestScore {
 						System.out.println("학생번호 : " + score[k].getStudentId() + " 학생 이름 : " + score[k].getName() + " 총점 : " + score[k].getSumScore());
 					}
 				}
-								
+				//종료				
 			}else if(menu == 6) {
 				System.out.println("종료");
 				break;
