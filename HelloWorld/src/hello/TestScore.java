@@ -76,20 +76,28 @@ public class TestScore {
 				//선택정렬(오름차순)
 			}else if(menu == 5) {
 				System.out.println("오름차순으로 정렬하시오(총점기준)");
+				Score[] student = new Score[100];
+				for(int i = 0; i<student.length; i++) {
+					if(score[i] != null) {
+						student[i] = new Score();
+						student[i].setStudentId(score[i].getStudentId());
+						student[i].setName(score[i].getName());
+						student[i].setSumScore(score[i].getSumScore());
+					}
+				}
 				for(int i =0; i<score.length-1; i++) {
 					for(int j = i+1; j<score.length; j++) {
-						if(score[i] != null && score[j] != null) {
-							if(score[i].getSumScore() > score[j].getSumScore()) {
-								int tmp = score[j].getSumScore();
-								score[j].setSumScore(score[i].getSumScore());
-								score[i].setSumScore(tmp);
-							}
+						Score x = null;
+						if(student[i].getSumScore() > student[j].getSumScore()) {
+							x = student[j];
+							student[j] = student[i];
+							student[i] = x;
 						}
 					}
 				}
-				for(int k = 0; k<score.length; k++) {
-					if(score[k] != null) {
-						System.out.println("학생번호 : " + score[k].getStudentId() + " 학생 이름 : " + score[k].getName() + " 총점 : " + score[k].getSumScore());
+				for(int k = 0; k<student.length; k++) {
+					if(student[k] != null) {
+						System.out.println("학생번호 : " + student[k].getStudentId() + " 학생 이름 : " + student[k].getName() + " 총점 : " + student[k].getSumScore());
 					}
 				}
 				//종료				
@@ -110,6 +118,9 @@ class Score{
 	int mathScore;
 	int sumScore;
 	double avgScore;
+	public Score() {
+		
+	}
 	
 	public Score(int studentId, String name, int koreanScore, int englishScore, int mathScore, int sumScore, double avgScore) {
 		super();

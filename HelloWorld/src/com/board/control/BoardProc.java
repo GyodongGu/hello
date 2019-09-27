@@ -2,18 +2,22 @@ package com.board.control;
 
 import java.util.Scanner;
 
+import com.board.impl.BoardServiceImpl;
 import com.board.model.Board;
+import com.board.model.BoardService;
 
 public class BoardProc {
 	
 	Scanner sc = new Scanner(System.in);
 	
-	Board[] boardAry = new Board[10];
+	Board[] boardAry = new Board[10];	//db역할
+	
+	BoardService service = new BoardServiceImpl();
 	
 	public void execute() {
 		while(true) {
 			System.out.println("메뉴선택하세요.");
-			System.out.println("1. 작성 | 2. 단건조회 | 3. 전체조회 | 4. 종료");
+			System.out.println("1. 작성 | 2. 단건조회 | 3. 전체조회 | 4. 글삭제 | 5.종료");
 			int menu = sc.nextInt();sc.nextLine();
 			if(menu == 1) {
 				writeBoard();
@@ -22,6 +26,8 @@ public class BoardProc {
 			}else if(menu == 3) {
 				getBoardList();
 			}else if(menu == 4) {
+				deleteBoard();
+			}else if(menu == 5) {
 				System.out.println("프로그램을 종료합니다.");
 				break;
 			}
@@ -45,31 +51,67 @@ public class BoardProc {
 		String writer = sc.nextLine();
 		
 		Board board = new Board(boardNo, title, contents, writer);
-		for(int i =0; i<boardAry.length; i++) {
-			if(boardAry[i] == null) {
-				boardAry[i] = board;
-				break;
-			}
-		}
+		
+		BoardService service = new BoardServiceImpl();	//interface service = new implement
+		service.writeBoard(board, boardAry);
+		
+//		for(int i =0; i<boardAry.length; i++) {
+//			if(boardAry[i] == null) {
+//				boardAry[i] = board;
+//				break;
+//			}
+//		}
 		
 	}
 	public void getBoard() {
 		System.out.println("한건조회");
 		System.out.println("조회할 번호를 입력");
 		int boardNo = sc.nextInt();
-		for(int i = 0; i<boardAry.length; i++) {
-			if(boardAry[i] !=null && boardAry[i].getBoardNo() == boardNo) {
-				System.out.println(boardAry[i].getTitle() + ","+ boardAry[i].getContents()+","+ boardAry[i].getWriter());
-			}
-		}
+		
+		
+		Board board = service.getBoard(boardNo, boardAry);
+		System.out.println(board);
+		
+		
+		
+//		for(int i = 0; i<boardAry.length; i++) {
+//			if(boardAry[i] !=null && boardAry[i].getBoardNo() == boardNo) {
+//				System.out.println(boardAry[i].getTitle() + ","+ boardAry[i].getContents()+","+ boardAry[i].getWriter());
+//			}
+//		}
 	}
 	public void getBoardList() {
 		System.out.println("전체글 조회");
-		for(int i=0; i<boardAry.length; i++) {
-			if(boardAry[i] != null) {
-				System.out.println(boardAry[i].getBoardNo()+","+boardAry[i].getTitle()+","+boardAry[i].getContents()+","+boardAry[i].getWriter());
+		Board[] resultAry = service.getBoardList(boardAry);
+		for(int i =0; i<resultAry.length; i++) {
+			if(resultAry[i] != null) {
+				System.out.println(resultAry[i]);
 			}
 		}
+		
+		
+//		for(int i=0; i<boardAry.length; i++) {
+//			if(boardAry[i] != null) {
+//				System.out.println(boardAry[i].getBoardNo()+","+boardAry[i].getTitle()+","+boardAry[i].getContents()+","+boardAry[i].getWriter());
+//			}
+//		}
+	}
+	
+	public void deleteBoard() {
+		System.out.println("삭제할 글 번호");
+		int de = sc.nextInt();sc.nextLine();
+		
+		service.deleteBoard(de, boardAry);
+	}
+	public void updateBoard() {
+		System.out.println("변경할 번호");
+		int boardNo = sc.nextInt();sc.nextLine();
+		System.out.println("변경할 내용 : ");
+		
+		String content = sc.nextLine();
+		Board board = new Board(boardNo, "", content, "");
+		service.updateBoard(board, boardAry);
+		
 	}
 
 }
