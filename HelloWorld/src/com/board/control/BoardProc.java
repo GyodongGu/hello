@@ -17,7 +17,7 @@ public class BoardProc {
 	public void execute() {
 		while(true) {
 			System.out.println("메뉴선택하세요.");
-			System.out.println("1. 작성 | 2. 단건조회 | 3. 전체조회 | 4. 글삭제 | 5.종료");
+			System.out.println("1. 작성 | 2. 단건조회 | 3. 전체조회 | 4. 글삭제 | 5.게시글 수정 | 6. 종료");
 			int menu = sc.nextInt();sc.nextLine();
 			if(menu == 1) {
 				writeBoard();
@@ -28,6 +28,8 @@ public class BoardProc {
 			}else if(menu == 4) {
 				deleteBoard();
 			}else if(menu == 5) {
+				updateBoard();
+			}else if (menu == 6) {
 				System.out.println("프로그램을 종료합니다.");
 				break;
 			}
