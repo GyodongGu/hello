@@ -88,10 +88,12 @@ public class TestScore {
 				for(int i =0; i<score.length-1; i++) {
 					for(int j = i+1; j<score.length; j++) {
 						Score x = null;
-						if(student[i].getSumScore() > student[j].getSumScore()) {
-							x = student[j];
-							student[j] = student[i];
-							student[i] = x;
+						if(student[i] != null && student[j] !=null) {
+							if(student[i].getSumScore() > student[j].getSumScore()) {
+								x = student[j];
+								student[j] = student[i];
+								student[i] = x;
+							}
 						}
 					}
 				}

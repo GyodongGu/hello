@@ -56,6 +56,12 @@ public class BoardServiceImpl implements BoardService{
 	public void updateBoard(Board board, Board[] boards) {
 		// TODO Auto-generated method stub
 		
+		for(int i = 0; i<boards.length; i++) {
+			if(boards[i] != null && boards[i].getBoardNo()==board.getBoardNo()) {
+				boards[i].setContents(board.getContents());
+			}
+		}
+		
 		
 	}
 
