@@ -2,15 +2,13 @@ package com.yedam.check4;
 
 public class Util {
 	
-	
-	public static <N,A> int getValue(Pair<N,A> p, String s) {
-		
-		boolean b = p.getName().equals(s);
-		if(b) {
-			return (int) p.getAge();
+	public static <K, V> V getValue(Pair<K, V> p, K k) {
+		if(p.getName()== k) {
+			return p.getAge();
 		}
-		return 0;
+		else {
+			return null;
+		}
 	}
-	
-	
+
 }
