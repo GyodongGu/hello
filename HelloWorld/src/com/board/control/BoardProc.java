@@ -1,18 +1,29 @@
 package com.board.control;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-import com.board.impl.BoardServiceImpl;
+import com.board.impl.BoardCollectionImpl;
 import com.board.model.Board;
-import com.board.model.BoardService;
+import com.board.model.BoardCollection;
+
 
 public class BoardProc {
 	
 	Scanner sc = new Scanner(System.in);
 	
-	Board[] boardAry = new Board[10];	//db역할
+//	Board[] boardAry = new Board[10];	//db역할
 	
-	BoardService service = new BoardServiceImpl();
+	List<Board> boardAry = new ArrayList<>();
+	
+//	BoardService service = new BoardServiceImpl();
+	
+//	BoardColletion service = new BoardCollectionImpl();
+	
+	BoardCollection service = new BoardCollectionImpl();
+	
+	
 	
 	public void execute() {
 		while(true) {
@@ -65,9 +76,12 @@ public class BoardProc {
 			//board class의 필드를 사용해서 인스턴스를 만들고
 			//boardServiceImpl에서 method를 사용하기위해 인스턴스를 만들엇다.
 			Board board = new Board(boardNo, title, contents, writer);
-			BoardService service = new BoardServiceImpl();	//interface service = new implement
+			BoardCollection service = new BoardCollectionImpl();	//interface service = new implement
 		
+//			service.writeBoard(board, boardAry);
+			
 			service.writeBoard(board, boardAry);
+			
 		}catch(Exception e) {
 			System.out.println("잘못입력하셨습니다.");
 			sc.nextLine();
@@ -105,10 +119,10 @@ public class BoardProc {
 	}
 	public void getBoardList() {
 		System.out.println("전체글 조회");
-		Board[] resultAry = service.getBoardList(boardAry);
-		for(int i =0; i<resultAry.length; i++) {
-			if(resultAry[i] != null) {
-				System.out.println(resultAry[i]);
+		List<Board> resultAry = service.getBoardList(boardAry);
+		for(int i =0; i<resultAry.size(); i++) {
+			if(resultAry.get(i) != null) {
+				System.out.println(resultAry.get(i));
 			}
 		}
 		

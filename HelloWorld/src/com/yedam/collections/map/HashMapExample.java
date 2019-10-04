@@ -27,5 +27,16 @@ public class HashMapExample {
 			System.out.println("key : " + key + ", value : " + map.get(key));
 		}
 		
+		Set<Map.Entry<String, Integer>> entrySet = map.entrySet();
+		Iterator<Map.Entry<String, Integer>> mapIter = entrySet.iterator();
+		while(mapIter.hasNext()) {
+			Map.Entry<String, Integer> ent = mapIter.next();
+			System.out.println("key : " + ent.getKey() + ", value : " + ent.getValue());
+		}
+		
+		for(Map.Entry<String, Integer> mapEnt : entrySet) {
+			System.out.println(mapEnt.getKey() + "," + mapEnt.getValue());
+		}
+		
 	}
 }
