@@ -19,25 +19,27 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public Employee getEmployee(int empNo) {
 		// TODO Auto-generated method stub
-		return null;
+		Employee emp = dao.getEmployee(empNo);
+		return emp;
 	}
 
 	@Override
 	public void insertEmployee(Employee emp) {
 		// TODO Auto-generated method stub
-		dao.insertEmp(emp);
+		dao.insertEmpProc(emp);
 	}
 
 	@Override
-	public void updateEmployee(Employee emp) {
+	public void updateEmployee(Employee emp, int empNo) {
 		// TODO Auto-generated method stub
+		dao.updateEmp(emp, empNo);
 		
 	}
 
 	@Override
 	public void deleteEmployee(int empNo) {
 		// TODO Auto-generated method stub
-		
+		dao.deleteEmp(empNo);
 	}
 	
 }

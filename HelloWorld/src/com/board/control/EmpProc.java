@@ -92,21 +92,14 @@ public class EmpProc {
 		System.out.println("한건조회");
 		System.out.println("조회할 번호를 입력");
 		try {
-			int boardNo = sc.nextInt();
-		
-//			Board board = service.getBoard(boardNo, boardAry);
-//			System.out.println(board);
+			int empNo = sc.nextInt();sc.nextLine();
+			Employee employees = service.getEmployee(empNo);
+			System.out.println(employees);
+			
 		}catch(Exception e) {
 			System.out.println("잘못입력하셨습니다.");
 			sc.nextLine();
 		}
-		
-		
-//		for(int i = 0; i<boardAry.length; i++) {
-//			if(boardAry[i] !=null && boardAry[i].getBoardNo() == boardNo) {
-//				System.out.println(boardAry[i].getTitle() + ","+ boardAry[i].getContents()+","+ boardAry[i].getWriter());
-//			}
-//		}
 	}
 	public void getBoardList() {
 		System.out.println("전체글 조회");
@@ -128,8 +121,9 @@ public class EmpProc {
 		System.out.println("삭제할 글 번호");
 		try {
 			int de = sc.nextInt();sc.nextLine();
+			
+			service.deleteEmployee(de);
 		
-//			service.deleteBoard(de, boardAry);
 			System.out.println(de+"번 글이 삭제되었습니다.");
 		}catch(Exception e) {
 			System.out.println("잘못된 입력입니다.");
@@ -142,12 +136,33 @@ public class EmpProc {
 		System.out.println("변경할 번호");
 		try {
 			int boardNo = sc.nextInt();sc.nextLine();
-			System.out.println("변경할 내용 : ");
-		
-			String content = sc.nextLine();
-			Board board = new Board(boardNo, "", content, "");
-//			service.updateBoard(board, boardAry);
-			System.out.println(boardNo+"번 글의 내용이 변경되었습니다.");
+			System.out.println("변경사항 ");
+			System.out.println("번호 : ");
+			int eNo = sc.nextInt(); sc.nextLine();
+			System.out.println("이름 : ");
+			String fName = sc.nextLine();
+			System.out.println("성 : ");
+			String lName = sc.nextLine();
+			System.out.println("email : ");
+			String eemail = sc.nextLine();
+			System.out.println("입사일 : ");
+			String hDate = sc.nextLine();
+			System.out.println("jobid : ");
+			String jid = sc.nextLine();
+			System.out.println("급여 : ");
+			int esalary = sc.nextInt(); sc.nextLine();
+			
+			Employee emp = new Employee();
+			emp.setEmployeeId(eNo);
+			emp.setFirstName(fName);
+			emp.setLastName(lName);
+			emp.setEmail(eemail);
+			emp.setHireDate(hDate);
+			emp.setJobId(jid);
+			emp.setSalary(esalary);
+			
+			service.updateEmployee(emp, boardNo);
+			
 		}catch(Exception e) {
 			System.out.println("잘못된 입력입니다.");
 			sc.nextLine();
