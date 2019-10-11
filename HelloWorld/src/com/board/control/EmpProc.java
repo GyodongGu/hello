@@ -25,6 +25,9 @@ public class EmpProc {
 	
 	public void execute() {
 		while(true) {
+			
+			login_check();
+			
 			System.out.println("메뉴선택하세요.");
 			System.out.println("1. 작성 | 2. 단건조회 | 3. 전체조회 | 4. 글삭제 | 5.게시글 수정 | 6. 종료");
 			int menu = 0;
@@ -56,6 +59,27 @@ public class EmpProc {
 		}
 		System.out.println("프로그램 종료.");
 	}
+	
+	public void login_check() {
+		while(true) {
+			System.out.println("id입력 : ");
+			String id = sc.nextLine();
+			System.out.println("password 입력 : ");
+			String passwd = sc.nextLine();
+			
+			if(id.equals("user1")&& passwd.equals("1234")) {
+				System.out.println("user1님 환영합니다.");
+				break;
+			}
+			else {
+				System.out.println("다시 입력하세요");
+			}
+		}
+	}
+	
+	
+	
+	
 	
 	
 	public void writeBoard() {

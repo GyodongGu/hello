@@ -133,16 +133,16 @@ public class EmpDAO {
 	
 	public List<Employee> getEmplist(){
 		
-		List<Employee> list = new ArrayList<>();
-		conn = DAO.getConnect();
-		String sql = "select * from emp_temp";
-		Employee emp = null;
+		List<Employee> list = new ArrayList<>();					//List타입의 ArrayList인스턴스 생성
+		conn = DAO.getConnect();									//데이터베이스 연결
+		String sql = "select * from emp_temp";						//sql문 
+		Employee emp = null;										//Employee타입의 공관 확보
 		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
+			pstmt = conn.prepareStatement(sql);						//database에 접근하기 위한 preparedStatement
+			rs = pstmt.executeQuery();								//sql문 실행 결과는 ResultSet에 저장
 			while(rs.next()) {
-				emp = new Employee();
-				emp.setEmployeeId(rs.getInt("employee_id"));
+				emp = new Employee();								//Employee타입의 인스턴스 생성
+				emp.setEmployeeId(rs.getInt("employee_id"));		//인스턴스에 각각의 데이터를 입력
 				emp.setFirstName(rs.getString("first_name"));
 				emp.setLastName(rs.getString("last_name"));
 				emp.setHireDate(rs.getString("hire_date"));
@@ -150,14 +150,14 @@ public class EmpDAO {
 				emp.setSalary(rs.getInt("salary"));
 				emp.setJobId(rs.getString("job_id"));
 				
-				list.add(emp);
+				list.add(emp);										//입력된 Employee타입의 인스턴스를 ArrayList에 값을 추가
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
-				conn.close();
+				conn.close();										//접속종료
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -168,30 +168,31 @@ public class EmpDAO {
 	}
 	
 	public Employee getEmployee(int empNo) {
-		conn = DAO.getConnect();
-		Employee emp = null;
-		String sql = "select * from emp_temp where employee_id = ?";
-		String sql1 = "{? = call get_dept_name(?)}";
+		conn = DAO.getConnect();									//database연결
+		Employee emp = null;										//Employee타입의 결과물 공간 확보
+		String sql = "select * from emp_temp where employee_id = ?";//실행 하고자 하는 sql문
+		String sql1 = "{? = call get_dept_name(?)}";				//{?=call (procedure_name)} 실행하고자 하는 procedure
 		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, empNo);
-			rs = pstmt.executeQuery();
-			CallableStatement cstmt = conn.prepareCall(sql1);
-			cstmt.registerOutParameter(1, java.sql.Types.VARCHAR);
-			cstmt.setInt(2, empNo);
-			cstmt.execute();
-			String deptName = cstmt.getString(1);
+			pstmt = conn.prepareStatement(sql);						//database에 접근하기위한 preparedStatement
+			pstmt.setInt(1, empNo);									//sql의 ?에 값을 입력
+			rs = pstmt.executeQuery();								//sql문 실행
+			CallableStatement cstmt = conn.prepareCall(sql1);		//procedure 사용하기위한 접근
+			cstmt.registerOutParameter(1, java.sql.Types.VARCHAR);	//procedure 출력 parameter의 타입을 정해주는 용도
+			cstmt.setInt(2, empNo);									//두 번째 ?에 parameter값을 입력
+			cstmt.execute();										//sql1문 실행
+			String deptName = cstmt.getString(1);					//첫 번째 ?에 대한 값을 deptName에 저장
 			
 			
 			while(rs.next()) {
-				emp =  new Employee();
-				emp.setEmployeeId(rs.getInt("employee_id"));
+				emp =  new Employee();								//결과물 인스턴스 생성
+				emp.setEmployeeId(rs.getInt("employee_id"));		//결과물에 해당하는 데이터 삽입
 				emp.setFirstName(rs.getString("first_name"));
 				emp.setLastName(rs.getString("last_name"));
 				emp.setHireDate(rs.getString("hire_date"));
 				emp.setEmail(rs.getString("email"));
 				emp.setSalary(rs.getInt("salary"));
 				emp.setJobId(rs.getString("job_id"));
+				emp.setDeptName(deptName);							//setDeptName으로 deptName을 입력한다.
 			}	
 			
 			
@@ -200,7 +201,7 @@ public class EmpDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				conn.close();
+				conn.close();										//연결종료
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

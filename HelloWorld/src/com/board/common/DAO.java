@@ -8,8 +8,8 @@ public class DAO {
 	public static Connection getConnect() {
 		Connection conn = null;
 		
-		String user = "hr";
-		String passwd = "hr";
+		String user = "ggd";
+		String passwd = "ggd";
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		
