@@ -55,17 +55,17 @@ public class BoardDBDAO {
 	}
 	//답글 작성
 	public void insertReplyBoardDB(BoardDB board) {
-		conn = DAO.getConnect();
+		conn = DAO.getConnect();	//DB와 연결
 		String sql = "insert into boards values ((select nvl(max(board_no),0)+1 from boards), ?, ?, ?, sysdate, ?)";
 
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);		//sql문에 ?에 값을 넣기 위한 과정
 			pstmt.setString(1, board.getTitle());
 			pstmt.setString(2, board.getContent());
 			pstmt.setString(3, board.getWriter());
 			pstmt.setInt(4, board.getOrigNo());
 
-			int r = pstmt.executeUpdate();
+			int r = pstmt.executeUpdate();			//완성된 sql문 실행
 			System.out.println(r + "건의 답글이 작성되었습니다.");
 
 		} catch (SQLException e) {
@@ -73,7 +73,7 @@ public class BoardDBDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				conn.close();
+				conn.close();	//연결 종료
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -83,14 +83,14 @@ public class BoardDBDAO {
 	}
 	//게시글 삭제
 	public void deleteBoardDB(int boardNo) {
-		conn = DAO.getConnect();
-		String sql = "delete from boards where board_no = ?";
-
+		conn = DAO.getConnect();	//DB연결
+		String sql = "delete from boards where board_no = ?";	
+		
 		try {
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);	//sql의 ?에 값을 넣는 과정
 			pstmt.setInt(1, boardNo);
 
-			int r = pstmt.executeUpdate();
+			int r = pstmt.executeUpdate();	//sql을 실행
 			System.out.println(r + "건이 삭제되었습니다.");
 
 		} catch (SQLException e) {
@@ -98,7 +98,7 @@ public class BoardDBDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				conn.close();
+				conn.close();	//연결 종료
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -110,19 +110,34 @@ public class BoardDBDAO {
 	public void updateBoardDB(BoardDB board) {
 		conn = DAO.getConnect();
 
-		String sql = "update boards set title = ?, content = ? where board_no = ?";
+//		String sql = "update boards set title = nvl(?,title), content = nvl(?,content) where board_no = ?";
 
+		String sql = "update boards set creation_date = sysdate";
+		if(!board.getTitle().equals("") && board.getTitle() !=null) {
+			sql += ", title = ?";
+		}
+		if(!board.getContent().equals("") && board.getContent() != null) {
+			sql += ", content = ?";
+		}
+		sql += " where board_no = ? and orig_no is null";
+		
+		int n= 0;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, board.getTitle());
-			pstmt.setString(2, board.getContent());
-			pstmt.setInt(3, board.getBoardNo());
+			if(!board.getTitle().equals("") && board.getTitle() !=null) {
+				pstmt.setString(++n, board.getTitle());
+			}
+			if(!board.getContent().equals("") && board.getContent() != null) {
+				pstmt.setString(++n, board.getContent());
+			}
+			pstmt.setInt(++n, board.getBoardNo());
+			
 			int r = pstmt.executeUpdate();
-			System.out.println(r + "건이 업데이트 되었습니다.");
-
-		} catch (SQLException e) {
+			System.out.println(r+"건이 업데이트되었습니다.");
+			
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		} finally {
 			try {
 				conn.close();
@@ -131,22 +146,44 @@ public class BoardDBDAO {
 				e.printStackTrace();
 			}
 		}
+		
+
+		
+//		try {
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, board.getTitle());
+//			pstmt.setString(2, board.getContent());
+//			pstmt.setInt(3, board.getBoardNo());
+//			int r = pstmt.executeUpdate();
+//			System.out.println(r + "건이 업데이트 되었습니다.");
+//
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				conn.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 
 	}
 	//특정 게시글 불러오기
 	public BoardDB getBoardDb(int boardNo) {
-		conn = DAO.getConnect();
-		BoardDB board = null;
+		conn = DAO.getConnect();	//DB와 연결하는 작업(DAO.java에 있습니다.)
+		BoardDB board = null;		//BoardDB타입의 공간을 확보
 
-		String sql = "select * from boards where board_no = ?";
+		String sql = "select * from boards where board_no = ? and orig_no is null";	//실행하고자하는 sql문
 
 		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boardNo);
-			rs = pstmt.executeQuery();
+			pstmt = conn.prepareStatement(sql);	//sql문으로 데이터베이스에 접근
+			pstmt.setInt(1, boardNo);	//sql문에 있는 ?에 값을 넣어주는 작업
+			rs = pstmt.executeQuery();	//완성된 sql문을 실행해서 결과값들을 ResultSet 공간에 담아둔다.
 
 			while (rs.next()) {
-				board = new BoardDB();
+				board = new BoardDB();	//BoardDB타입의 공간에 각 데이터를 넣는다.
 				board.setBoardNo(rs.getInt("board_no"));
 				board.setTitle(rs.getString("title"));
 				board.setContent(rs.getString("content"));
@@ -158,21 +195,28 @@ public class BoardDBDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();	//접속종료
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
-		return board;
+		return board;	//BoardDB타입으로 만든 것을 반환한다.
 	}
 	//게시글 전체 리스트
 	public List<BoardDB> getBoardDBList() {
-		conn = DAO.getConnect();
-		List<BoardDB> list = new ArrayList<>();
+		conn = DAO.getConnect();	//db연결과정
+		List<BoardDB> list = new ArrayList<>();	//리스트 공간 확보
 
-		String sql = "select * from boards";
-		BoardDB board = null;
+		String sql = "select * from boards where orig_no is null order by board_no desc";
+		BoardDB board = null;	//데이터 공간 확보
 
 		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
+			pstmt = conn.prepareStatement(sql);	//sql문 실행
+			rs = pstmt.executeQuery();	//실행 결과 데이터 set
 
 			while (rs.next()) {
 				board = new BoardDB();
@@ -197,7 +241,6 @@ public class BoardDBDAO {
 				e.printStackTrace();
 			}
 		}
-
 		return list;
 	}
 	//게시글 삽입

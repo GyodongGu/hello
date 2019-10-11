@@ -82,9 +82,11 @@ public class BoardDBProc {
 	}
 
 	public void deleteBoardDB() {
+
 		System.out.println("삭제할 게시글 번호를 입력하세요.");
 		int deleteNo = sc.nextInt();
 		sc.nextLine();
+
 		service.deleteBoardDB(deleteNo);
 		System.out.println("삭제가 성공적으로 되었습니다.");
 
@@ -96,15 +98,22 @@ public class BoardDBProc {
 		sc.nextLine();
 		BoardDB upboard = new BoardDB();
 		upboard = service.getBoardDb(updateNo);
-		System.out.println("제목 수정 : ");
-		String upTitle = sc.nextLine();
-		System.out.println("수정할 내용 : ");
-		String upContent = sc.nextLine();
 
-		upboard.setTitle(upTitle);
-		upboard.setContent(upContent);
+		if (upboard.getWriter().equals(loginId)) {
+			System.out.println("제목 수정 : ");
+			String upTitle = sc.nextLine();
+			System.out.println("수정할 내용 : ");
+			String upContent = sc.nextLine();
 
-		service.updateBoardDB(upboard);
+			upboard.setTitle(upTitle);
+			upboard.setContent(upContent);
+
+			service.updateBoardDB(upboard);
+			System.out.println("수정되었습니다.");
+		} else {
+			System.out.println("수정할 권한이 없습니다.");
+			return;
+		}
 
 	}
 
@@ -115,9 +124,52 @@ public class BoardDBProc {
 		sc.nextLine();
 		BoardDB bDB = new BoardDB();
 		bDB = service.getBoardDb(DBNo);
+		if (bDB != null && bDB.getBoardNo() != 0) {
+			System.out.println("---------------------[원본글]--------------------------");
 
-		System.out.println(bDB);
+			System.out.println("제목 : " + bDB.getTitle());
+			System.out.println("내용 : " + bDB.getContent());
+			System.out.println("작성자 : " + bDB.getWriter());
+			System.out.println("작성일자 : " + bDB.getCreationdate());
 
+			List<BoardDB> relist = service.getReply(DBNo);
+
+			if (relist.size() > 0) {
+				System.out.println("-----------------------[댓글]--------------------------");
+
+				for (BoardDB bb : relist) {
+
+					System.out.println("->" + bb.getContent());
+				}
+			} else {
+				System.out.println("댓글이 없습니다.");
+			}
+
+			System.out.println("-------------------------------------------------------");
+			System.out.println("1.댓글작성 | 2.이전메뉴");
+
+			int subMenu = 0;
+			subMenu = sc.nextInt();
+			sc.nextLine();
+			if (subMenu == 1) {
+				BoardDB rbDB = new BoardDB();
+
+				System.out.println("답글 내용 : ");
+				String reContent = sc.nextLine();
+
+				rbDB.setOrigNo(DBNo);
+				rbDB.setContent(reContent);
+				rbDB.setWriter(loginId);
+
+				service.insertReply(rbDB);
+				System.out.println("답글을 작성했습니다.");
+
+			} else if (subMenu == 2) {
+				return;
+			}
+		} else {
+			System.out.println("없는 번호입니다.");
+		}
 	}
 
 	public void getBoardDBList() {
