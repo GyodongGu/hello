@@ -86,18 +86,24 @@ public class BoardDBProc {
 		System.out.println("삭제할 게시글 번호를 입력하세요.");
 		int deleteNo = sc.nextInt();
 		sc.nextLine();
+		BoardDB deboard = new BoardDB();
+		deboard = service.getBoardDb(deleteNo);
+		if (deboard.getWriter().equals(loginId)) {
 
-		service.deleteBoardDB(deleteNo);
-		System.out.println("삭제가 성공적으로 되었습니다.");
-
+			service.deleteBoardDB(deleteNo);
+//			System.out.println("삭제가 성공적으로 되었습니다.");
+		} else {
+			System.out.println("삭제할 권한이 없습니다.");
+			return;
+		}
 	}
 
 	public void updateBoardDB() {
 		System.out.println("수정할 게시글 번호를 입력하세요.");
-		int updateNo = sc.nextInt();
+		int updateNo = sc.nextInt(); // 수정할 게시글 번호 입력받기
 		sc.nextLine();
 		BoardDB upboard = new BoardDB();
-		upboard = service.getBoardDb(updateNo);
+		upboard = service.getBoardDb(updateNo); // 번호에 해당하는 게시글 불러오기
 
 		if (upboard.getWriter().equals(loginId)) {
 			System.out.println("제목 수정 : ");
@@ -107,6 +113,7 @@ public class BoardDBProc {
 
 			upboard.setTitle(upTitle);
 			upboard.setContent(upContent);
+			upboard.setWriter(loginId);
 
 			service.updateBoardDB(upboard);
 			System.out.println("수정되었습니다.");
@@ -139,12 +146,12 @@ public class BoardDBProc {
 
 				for (BoardDB bb : relist) {
 
-					System.out.println("->" + bb.getContent());
+					System.out.println("->" + bb.getContent() + "   작성자 : " + bb.getWriter());
 				}
 			} else {
 				System.out.println("댓글이 없습니다.");
 			}
-
+			System.out.println(relist.size() + "개의 댓글이 있습니다.");
 			System.out.println("-------------------------------------------------------");
 			System.out.println("1.댓글작성 | 2.이전메뉴");
 

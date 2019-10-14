@@ -13,5 +13,4 @@ public interface BoardDBService {
 	public List<BoardDB> getReply(int boardNo);	//해당 게시글 댓글목록 조회
 	public void insertReply(BoardDB board);	//댓글작성
 	
-	
 }
