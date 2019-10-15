@@ -17,7 +17,8 @@ public class CalcExample {
 		System.out.println("두번째 값을 입력하시오 :");
 		int b = sc.nextInt();
 		cal.execute(a,b);
-
+		
+		
 	}
 
 }

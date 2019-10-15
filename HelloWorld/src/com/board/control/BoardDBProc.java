@@ -131,6 +131,8 @@ public class BoardDBProc {
 		sc.nextLine();
 		BoardDB bDB = new BoardDB();
 		bDB = service.getBoardDb(DBNo);
+		
+		
 		if (bDB != null && bDB.getBoardNo() != 0) {
 			System.out.println("---------------------[원본글]--------------------------");
 

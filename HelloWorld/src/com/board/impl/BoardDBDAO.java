@@ -272,7 +272,7 @@ public class BoardDBDAO {
 		conn = DAO.getConnect(); // db연결과정
 		List<BoardDB> list = new ArrayList<>(); // 리스트 공간 확보
 
-		String sql = "select * from boards where orig_no is null order by board_no desc";
+		String sql = "select board_no, title, content, writer, creation_date, orig_no, get_reply_cnt(b.board_no) as reply_count from boards b where orig_no is null order by board_no desc";
 		BoardDB board = null; // 데이터 공간 확보
 
 		try {
@@ -282,11 +282,12 @@ public class BoardDBDAO {
 			while (rs.next()) {
 				board = new BoardDB();
 				board.setBoardNo(rs.getInt("board_no"));
-				board.setTitle(rs.getString("title"));
+				board.setTitle(rs.getString("title")+"("+rs.getString("reply_count")+")");
 				board.setContent(rs.getString("content"));
 				board.setWriter(rs.getString("writer"));
 				board.setCreationdate(rs.getString("creation_date"));
 				board.setOrigNo(rs.getInt("orig_no"));
+				
 
 				list.add(board);
 			}
